@@ -4,25 +4,23 @@ import me.ssagan.userstreamapp.controller.UserController;
 import me.ssagan.userstreamapp.model.entity.User;
 
 import java.util.ArrayList;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class _Main {
 
     public static void main(String[] args) {
         UserController controller = new UserController();
-
         ArrayList<User> userList = new ArrayList();
         for (int i = 0; i < 20; i++) {
-            userList.add(User.newBuilder().build());
+            userList.add(User.startBuild().build());
         }
-        //1
-        Supplier<Stream<User>> userStream = controller.getUserStream(userList);
+        //инициализация пользователей и запуск потока
+        Stream userStream = controller.getUserStream(userList);
 
-        //2
-        controller.sortUserStream(userStream.get());
+        //сортировка потока пользователей по убыванию идентификатора
+        ArrayList<User> sortedUserList = controller.sortUserStream(userStream);
 
-        //3
-        controller.findSomeUser(userStream.get());
+        //поиск пользователя с возрастом, совпадающим с его id
+        controller.findUserWithEqualsIdAndAge(sortedUserList);
     }
 }
